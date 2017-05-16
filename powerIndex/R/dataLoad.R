@@ -55,7 +55,7 @@ getwather <- function(fromYear, toYear)
   #分別取出list中的每個元素，貼到矩陣裡面
   for (i in 1:36){
     tmp <- Temp_Total[[i]]
-    Temp <- rbind(test,tmp)
+    Temp <- rbind(Temp,tmp)
   }
 
   write.csv(Temp,file = "Temp.csv" ,sep = ",", row.names = F)
