@@ -46,14 +46,13 @@ getwather <- function(fromYear, toYear)
   #產生出的的Temp_Total是個list，存放每一次的結果
   Temp_Total <- lapply(url_list, myTemp)
 
-
   ##Transform the data from list to matrix
   ##將結果的LIST轉成矩陣方便分析
   #建立一個有六個欄位的矩陣
   Temp <- matrix(ncol = 6)
 
   #分別取出list中的每個元素，貼到矩陣裡面
-  for (i in 1:36){
+  for (i in 1:length(Temp_Total[1])){
     tmp <- Temp_Total[[i]]
     Temp <- rbind(Temp,tmp)
   }
