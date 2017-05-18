@@ -62,7 +62,7 @@ getwather <- function(fromYear, toYear)
   return(Temp)
 }
 
-test <- functio()
+test <- function()
 {
   print("I got it!!")
 }
