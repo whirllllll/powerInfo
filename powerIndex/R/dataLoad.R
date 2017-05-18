@@ -62,6 +62,11 @@ getwather <- function(fromYear, toYear)
   return(Temp)
 }
 
+test <- functio()
+{
+  print("I got it!!")
+}
+
 getpower <- function()
 {
   # http://140.112.166.97/power/index.aspx
