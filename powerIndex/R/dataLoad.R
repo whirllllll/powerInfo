@@ -67,7 +67,71 @@ test <- function()
   print("I got it!!")
 }
 
-getpower <- function()
+loadPower <- function(building, dateFrom, dateTo)
 {
   # http://140.112.166.97/power/index.aspx
+  library(magrittr)
+  library(httr)
+  library(rvest)
+  library(XML)  # readHTMLTable
+  library(dplyr) # data manipulation & pipe line
+  library(stringr)
+  library(plyr)
+  
+  
+  # target = paste0("N",1)
+  
+  # building = "01A_P1_14"
+  # dt1 = "2013/12/1"
+  # dt2 = "2017/3/8 12:00:00"
+
+  res = POST("http://140.112.166.97/power/fn2/dataq.aspx",
+             body = list(dtype = "h",
+                         build= building,
+                         dt1 = dateFrom,
+                         dt2 = dateTo))
+  
+  node = content(res, "parsed", encoding = "big5") %>% html_nodes("table table")
+  a = html_table(node,header = T)[[1]]
+  
+  node1 = content(res, "parsed", encoding = "big5") %>% html_nodes("table select option")
+  index = html_attr(node1,"value")
+  index = index[-c(1:3)]
+  text = html_text(node1)
+  building = text[-c(1:3)]
+  
+  powerdata = data.frame()
+  for(i in c(74:length(index))){
+    res = POST("http://140.112.166.97/power/fn2/dataq.aspx",
+               body = list(dtype = "h",
+                           build= index[i],
+                           dt1 = dateFrom,
+                           dt2 = dateTo))
+    
+    node = content(res, "parsed", encoding = "big5") %>% html_nodes("table table")
+    power = html_table(node,header = T)[[1]]
+    power = cbind(building = rep(building[i],dim(power)[1]),power)
+    powerdata = rbind.fill(powerdata,power)
+  }
+  save(powerdata,file = "powerdata.RData")
+  
+  for(block in c(1:11)){
+    for(year in c(98:105)){
+      for(month in c(1:12)){
+        target = paste0("N",block)
+        res = POST("http://140.112.166.97/power/fn3/build.aspx",
+                   body = list(ctg = target,
+                               yr= year,
+                               mn= month,
+                               ok = "%BDT%A9w"))
+        
+        node = content(res, "parsed", encoding = "big5") %>% html_nodes("table table")
+        a = html_table(node,header = T)[[1]]
+        
+      } 
+    }
+  }
+  
+  return(powerdata)
+  #備忘:需要一個連結r和js的橋梁，讓js可以直接讀取r的爬取出來的結果(data.frame)
 }
