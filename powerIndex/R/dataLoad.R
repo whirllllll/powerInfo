@@ -57,9 +57,9 @@ getwather <- function(fromYear, toYear)
     Temp <- rbind(Temp,tmp)
   }
 
-  write.csv(Temp,file = "Temp.csv" ,sep = ",", row.names = F)
+  #write.csv(Temp,file = "Temp.csv" ,sep = ",", row.names = F)
 
-  return(Temp)
+  return(Temp[,c(1:3)])
 }
 
 test <- function()
