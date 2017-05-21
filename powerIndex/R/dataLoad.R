@@ -60,7 +60,7 @@ getwather <- function(fromYear, toYear)
   #write.csv(Temp,file = "Temp.csv" ,sep = ",", row.names = F)
   wather = Temp[-c(1:2),c(1:3)]
   names(wather) = c("date", "high", "low")
-  return()
+  return(wather)
 }
 
 test <- function()
