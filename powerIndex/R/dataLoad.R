@@ -98,3 +98,8 @@ loadPower <- function(building, dateFrom, dateTo)
   
   return(power)
 }
+
+
+hello<- function(x){
+  print(x)
+}
