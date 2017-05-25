@@ -100,6 +100,6 @@ loadPower <- function(building, dateFrom, dateTo)
 }
 
 
-hello<- function(x){
-  print(x)
+hello<- function(x1){
+  print(x1)
 }
